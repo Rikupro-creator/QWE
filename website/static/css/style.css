@@ -1,0 +1,941 @@
+$bg: #010150;
+$bg: #000031;
+$skin: #fff9f2;
+$skin: #fff7f7;
+$hair-base: #00ccff;
+$hair-base: lighten(#57d8ff, 2%);
+// $hair-dark: #1b327c;
+// $hair-dark: #3656be;
+$hair-dark: #1c78ad;
+$hair-mid: darken($hair-base, 18%);
+$hair-mid: lighten(#3895ff, 5%);
+$hair-mid: darken(#36bbf8, 5%);
+$dark-red: #8b1133;
+$light-red: #c31432;
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: $bg;
+  display: grid;
+  place-content: center;
+}
+
+*::before,
+*::after {
+  content: "";
+  position: absolute;
+}
+
+@mixin linear-gradient($direction: null, $gradients...) {
+  @if (type-of($direction) == "string") {
+    $direction: unquote($direction);
+  }
+  background-color: nth($gradients, 1);
+  background-image: -webkit-linear-gradient($direction, $gradients...);
+  background-image: linear-gradient($direction, $gradients...);
+}
+
+@mixin radial-gradient($direction: null, $gradients...) {
+  @if (type-of($direction) == "string") {
+    $direction: unquote($direction);
+  }
+  background-color: nth($gradients, 1);
+  background-image: -webkit-radial-gradient($direction, $gradients...);
+  background-image: radial-gradient($direction, $gradients...);
+}
+
+@mixin strand-color-styles($color, $start, $end) {
+  @for $i from $start through $end {
+    &:nth-child(#{$i}) {
+      background-color: $color;
+    }
+  }
+}
+
+@mixin strand-styles($width, $height, $top, $left) {
+  width: $width;
+  height: $height;
+  top: $top;
+  left: $left;
+}
+
+@mixin seigaihaCloud($foreground, $background, $size) {
+  background-color: $foreground;
+
+  background-image: radial-gradient(
+      circle at 100% 150%,
+      $foreground 24%,
+      $background 24%,
+      $background 28%,
+      $foreground 28%,
+      $foreground 36%,
+      $background 36%,
+      $background 40%,
+      transparent 40%,
+      transparent
+    ),
+    radial-gradient(
+      circle at 0 150%,
+      $foreground 24%,
+      $background 24%,
+      $background 28%,
+      $foreground 28%,
+      $foreground 36%,
+      $background 36%,
+      $background 40%,
+      transparent 40%,
+      transparent
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      $background 10%,
+      $foreground 10%,
+      $foreground 23%,
+      $background 23%,
+      $background 30%,
+      $foreground 30%,
+      $foreground 43%,
+      $background 43%,
+      $background 50%,
+      $foreground 50%,
+      $foreground 63%,
+      $background 63%,
+      $background 71%,
+      transparent 71%,
+      transparent
+    ),
+    radial-gradient(
+      circle at 100% 50%,
+      $background 5%,
+      $foreground 5%,
+      $foreground 15%,
+      $background 15%,
+      $background 20%,
+      $foreground 20%,
+      $foreground 29%,
+      $background 29%,
+      $background 34%,
+      $foreground 34%,
+      $foreground 44%,
+      $background 44%,
+      $background 49%,
+      transparent 49%,
+      transparent
+    ),
+    radial-gradient(
+      circle at 0% 50%,
+      $background 5%,
+      $foreground 5%,
+      $foreground 15%,
+      $background 15%,
+      $background 20%,
+      $foreground 20%,
+      $foreground 29%,
+      $background 29%,
+      $background 34%,
+      $foreground 34%,
+      $foreground 44%,
+      $background 44%,
+      $background 49%,
+      transparent 49%,
+      transparent
+    );
+  background-size: unquote($size);
+}
+
+@mixin radialOne($dark, $medium, $light) {
+  background-color: $dark;
+  background-image: repeating-radial-gradient(
+      circle at 0em 1em,
+      transparent,
+      transparent 0.14em,
+      $light 0.154em,
+      $light 0.26em,
+      transparent 0.27em,
+      transparent 0.6em
+    ),
+    repeating-radial-gradient(
+      circle at 1em 0em,
+      transparent,
+      transparent 0.14em,
+      $light 0.15em,
+      0.26em,
+      transparent 0.17em,
+      transparent 0.6em
+    ),
+    repeating-radial-gradient(
+      circle at 1em 1em,
+      transparent,
+      transparent 0.14em,
+      $medium 0.15em,
+      0.26em,
+      transparent 0.27em,
+      transparent 0.6em
+    ),
+    repeating-radial-gradient(
+      circle at 0em 0em,
+      transparent,
+      transparent 0.14em,
+      $medium 0.15em,
+      0.26em,
+      transparent 0.27em,
+      transparent 0.6em
+    );
+  background-size: 1em 1em;
+}
+
+@function randomNum($min, $max) {
+  $rand: random();
+  @return ($min + floor($rand * (($max - $min) + 1)));
+}
+
+.container {
+  width: 400px;
+  height: 400px;
+  background-color: red;
+  border-radius: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #c31432;
+  @include linear-gradient($dark-red, $light-red);
+  // https://www.heropatterns.com/
+  // @include seigaihaCloud($dark-red, $light-red, "50px 25px");;
+}
+
+.chiyogami {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  left: 30px;
+}
+
+.chiyogami__woman {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  & > * {
+    position: absolute;
+  }
+
+  .woman__eye-brow {
+    width: 50px;
+    height: 20px;
+    border-radius: 100%;
+    border-top: 4px solid $bg;
+    left: 170px;
+    top: 135px;
+    transform: rotate(5deg);
+    animation: turnEyeBrow 10s linear infinite;
+  }
+
+  .woman__head {
+    width: 180px;
+    height: 150px;
+    background-color: $skin;
+    border-radius: 50% 100% 100% 100% / 100% 100% 50% 100%;
+    left: 133px;
+    top: 80px;
+    transform: rotate(75deg);
+    border: 1px solid $bg;
+    animation: turnHead 10s linear infinite;
+  }
+
+  .woman__nose {
+    width: 20px;
+    height: 25px;
+    background-color: $skin;
+    left: 146px;
+    top: 170px;
+    transform: rotate(-45deg);
+    border-left: 1px solid $bg;
+    animation: turnNose 10s linear infinite;
+
+    &:before {
+      width: 10px;
+      height: 7px;
+      background-color: darken($skin, 5%);
+      top: 10px;
+      left: 3px;
+      transform: rotate(-90deg);
+    }
+    &:after {
+      width: 10px;
+      height: 15px;
+      background-color: $hair-base;
+      border-radius: 100%;
+      right: 8px;
+      top: -10px;
+      transform: rotate(90deg);
+      border-right: 1px solid $bg;
+    }
+  }
+
+  .woman__eye {
+    width: 60px;
+    height: 25px;
+    overflow: hidden;
+    left: 175px;
+    top: 145px;
+    border-radius: 73% 10% 76% 5% / 72% 6% 84% 20%;
+    transform: rotate(6deg);
+    border-top: 6px solid $bg;
+    border-left: 2px solid $bg;
+    border-right: 0.3em solid $bg;
+    border-bottom: 0.015em solid $bg;
+    box-shadow: 15px 2px 20px #ff98aa, -2px -3px 5px #ff98aa, -1px -1px #ff3d5e;
+    animation: turnEye 10s linear infinite;
+    &:after {
+      width: 60px;
+      height: 20px;
+      border-radius: 100%;
+      transform: rotate(-20deg);
+      border-top: 6px solid #969696;
+      opacity: 0.4;
+      left: -10px;
+    }
+
+    .eye__white {
+      position: absolute;
+      width: 110%;
+      height: 90%;
+      background-color: white;
+      border-radius: 100%;
+      box-shadow: inset 0px 5px #d4d4d4;
+      transform: rotate(-10deg);
+      overflow: hidden;
+
+      .eye__iris {
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        @include linear-gradient("to bottom", #ffe600, #fff);
+        left: 15px;
+        top: -9px;
+        border-radius: 100%;
+        box-shadow: inset 0 -3px #ffd000;
+      }
+      .eye__pupil {
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        border: 1px solid $bg;
+        background-image: radial-gradient(
+            6px 6px at 18px 10px,
+            white 99%,
+            transparent
+          ),
+          radial-gradient(3px 3px at 9px 9px, white 99%, transparent),
+          radial-gradient(2px 2px at 9px 18px, white 99%, transparent),
+          radial-gradient(3px 3px at 9px 18px, $bg 99%, transparent),
+          radial-gradient(7px 7px at 18px 10px, $bg 99%, transparent),
+          radial-gradient(6px 6px at center, $bg 99%, transparent),
+          radial-gradient(3px 3px at 6px 13px, $bg 99%, transparent);
+        border-radius: 100%;
+        z-index: 2;
+        left: 15px;
+        top: -10px;
+      }
+    }
+  }
+
+  .woman__hair--left {
+    width: 200px;
+    height: 200px;
+    background-color: $hair-base;
+    border-radius: 100%;
+    left: 115px;
+    top: 30px;
+    animation: turnHairLeft 10s ease infinite;
+  }
+
+  .woman__neck {
+    width: 100px;
+    height: 150px;
+    background-color: $skin;
+    left: 240px;
+    top: 200px;
+    transform: rotate(-15deg);
+    box-shadow: inset 0 50px darken($skin, 10%);
+    &:after {
+      width: 50px;
+      height: 100px;
+      background-color: darken($hair-base, 10%);
+      top: 25px;
+      left: -35px;
+      border-radius: 100%;
+      transform: rotate(-5deg);
+      border-right: 1px solid $bg;
+    }
+  }
+
+  .woman__hair {
+    width: 180px;
+    height: 130px;
+    background-color: $hair-base;
+    border-bottom-left-radius: 100%;
+    border-top-left-radius: 100%;
+    border-bottom-right-radius: 100%;
+    left: 170px;
+    top: 35px;
+    transform: rotate(30deg);
+    z-index: 2;
+    border-bottom: 1px solid $bg;
+    animation: turnHair 10s ease infinite;
+  }
+
+  .woman__mouth {
+    position: absolute;
+    width: 15px;
+    height: 5px;
+    border-radius: 100%;
+    border-top: 2px solid $bg;
+    background-color: pink;
+    left: 175px;
+    top: 220px;
+    transform: rotate(-10deg);
+    animation: turnMouth 10s ease infinite;
+  }
+
+  .woman__back {
+    width: 300px;
+    height: 200px;
+    background-color: $skin;
+    bottom: -90px;
+    left: 100px;
+    transform: rotate(-40deg) scale(0.8);
+    border-radius: 44% / 79%;
+    box-shadow: inset 30px 8px darken($skin, 10%);
+    border-top: 1px solid $bg;
+  }
+}
+
+.chiyogami__clouds {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: none;
+  & > * {
+    position: absolute;
+  }
+  .cloud {
+    border-radius: 100px;
+    position: absolute;
+    &:nth-child(1) {
+      width: 130px;
+      height: 30px;
+      background-color: navy;
+      // @include seigaihaCloud($dark-red, $light-red, "50px 25px");
+      // @include radialOne(navy, red, #c08d00);
+      top: 50px;
+    }
+  }
+}
+.strand__container {
+  width: 150px;
+  height: 100%;
+
+  &.sc--left {
+    left: 50px;
+    & > .strands {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      & > .strand {
+        border-radius: 100px;
+        position: absolute;
+        @include strand-color-styles(darken($hair-base, 10%), 1, 2);
+        @for $i from 1 through 10 {
+          $timing: randomNum(2s, 4s);
+          &:nth-child(#{$i}) {
+            animation: breeze $timing ease-in-out infinite;
+          }
+        }
+        &:nth-child(1) {
+          width: 200px;
+          height: 80px;
+          bottom: 100px;
+          left: 80px;
+        }
+        &:nth-child(2) {
+          width: 250px;
+          height: 40px;
+          bottom: 80px;
+          left: 30px;
+          animation: breeze 5s ease infinite;
+        }
+        @include strand-color-styles(darken($hair-mid, 8%), 3, 4);
+        &:nth-child(3) {
+          width: 70px;
+          height: 30px;
+          bottom: 70px;
+          left: 50px;
+          z-index: 2;
+        }
+        &:nth-child(4) {
+          z-index: 2;
+          width: 70px;
+          height: 25px;
+          bottom: 110px;
+          left: 100px;
+        }
+        &:nth-child(5) {
+          width: 40px;
+          height: 10px;
+          bottom: 35px;
+          left: 170px;
+          background-color: $skin;
+          z-index: 3;
+        }
+        &:nth-child(6) {
+          width: 40px;
+          height: 10px;
+          bottom: 120px;
+          background-color: $hair-dark;
+          left: 120px;
+          z-index: 2;
+        }
+        &:nth-child(7) {
+          width: 50px;
+          height: 15px;
+          background-color: $hair-dark;
+          bottom: 72px;
+          left: 65px;
+          z-index: 2;
+        }
+        &:nth-child(8) {
+          width: 200px;
+          height: 70px;
+          bottom: 20px;
+          background-color: darken($hair-base, 10%);
+          left: 10px;
+        }
+        &:nth-child(9) {
+          width: 90px;
+          height: 40px;
+          background-color: $hair-mid;
+          bottom: 10px;
+          left: 20px;
+        }
+        &:nth-child(10) {
+          width: 60px;
+          height: 15px;
+          background-color: $hair-dark;
+          bottom: 20px;
+          left: 30px;
+        }
+      }
+    }
+  }
+
+  &.sc--right {
+    left: 200px;
+    & > .strands {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      & > .strand {
+        border-radius: 100px;
+        @include strand-color-styles(lighten($hair-mid, 5%), 1, 4);
+        position: absolute;
+        transform-origin: 70% 50%;
+        @for $i from 12 through 40 {
+          $timing: randomNum(2s, 5s);
+          $delay: randomNum(0.8s, 2s);
+          &:nth-child(#{$i}) {
+            animation: breeze $timing $delay ease-in-out infinite;
+          }
+        }
+        &:nth-child(1) {
+          width: 250px;
+          height: 30px;
+          top: 70px;
+          position: relative;
+        }
+        &:nth-child(2) {
+          width: 200px;
+          height: 80px;
+          border-radius: 100px;
+          top: 200px;
+          left: 60px;
+          position: relative;
+        }
+        &:nth-child(3) {
+          width: 250px;
+          height: 70px;
+          top: 200px;
+          right: 10px;
+          position: relative;
+        }
+        &:nth-child(4) {
+          position: absolute;
+          width: 300px;
+          height: 80px;
+          top: 80px;
+          background-color: $hair-base;
+        }
+        @include strand-color-styles($hair-dark, 5, 8);
+
+        &:nth-child(5) {
+          width: 300px;
+          height: 40px;
+          left: 70px;
+        }
+        &:nth-child(6) {
+          width: 300px;
+          height: 40px;
+          left: 50px;
+          top: 160px;
+        }
+        &:nth-child(7) {
+          width: 300px;
+          height: 30px;
+          left: 50px;
+          top: 110px;
+          z-index: 2;
+        }
+        &:nth-child(8) {
+          width: 300px;
+          height: 20px;
+          left: 10px;
+          top: 110px;
+          z-index: 2;
+        }
+        &:nth-child(9) {
+          width: 300px;
+          height: 30px;
+          left: 50px;
+          top: 110px;
+          z-index: 2;
+          transform: scaleX(0.9) scaleY(0.8);
+          background-color: $hair-base;
+        }
+        &:nth-child(10) {
+          width: 300px;
+          height: 20px;
+          left: 10px;
+          top: 110px;
+          transform: scaleX(0.9) scaleY(0.7);
+          background-color: $hair-base;
+          z-index: 2;
+        }
+        &:nth-child(11) {
+          width: 200px;
+          height: 40px;
+          background-color: $hair-base;
+          top: 200px;
+          left: 100px;
+        }
+        @include strand-color-styles($hair-mid, 12, 17);
+        &:nth-child(12) {
+          width: 200px;
+          height: 35px;
+          top: 85px;
+          left: 30px;
+          z-index: 2;
+        }
+        &:nth-child(13) {
+          width: 200px;
+          height: 10px;
+          top: 120px;
+          left: 80px;
+          z-index: 2;
+        }
+        &:nth-child(14) {
+          width: 200px;
+          height: 45px;
+          left: 80px;
+          top: 140px;
+          z-index: 2;
+        }
+        &:nth-child(15) {
+          width: 50px;
+          height: 10px;
+          left: 50px;
+          top: 65px;
+          z-index: 2;
+        }
+        &:nth-child(16) {
+          width: 70px;
+          height: 20px;
+          left: 60px;
+          top: 180px;
+          z-index: 2;
+        }
+        &:nth-child(17) {
+          width: 20px;
+          height: 5px;
+          left: 40px;
+          top: 55px;
+          z-index: 2;
+        }
+        @include strand-color-styles($hair-base, 18, 22);
+        &:nth-child(18) {
+          width: 200px;
+          height: 55px;
+          top: 220px;
+          left: 80px;
+        }
+        &:nth-child(19) {
+          width: 70px;
+          height: 20px;
+          top: 300px;
+        }
+        &:nth-child(20) {
+          width: 120px;
+          height: 30px;
+          bottom: 25px;
+          right: 10px;
+        }
+        &:nth-child(21) {
+          width: 120px;
+          height: 15px;
+          bottom: 60px;
+          right: 100px;
+        }
+        &:nth-child(22) {
+          width: 150px;
+          height: 30px;
+          bottom: 60px;
+          left: 60px;
+        }
+        &:nth-child(23) {
+          width: 100px;
+          height: 10px;
+          bottom: 65px;
+          background-color: $skin;
+          left: 100px;
+          border: 1px solid $bg;
+        }
+        @include strand-color-styles($hair-dark, 24, 30);
+        &:nth-child(24) {
+          width: 200px;
+          height: 20px;
+          top: 95px;
+          z-index: 2;
+          left: 55px;
+        }
+        &:nth-child(25) {
+          z-index: 2;
+          width: 20px;
+          height: 10px;
+          top: 185px;
+          left: 80px;
+        }
+        &:nth-child(26) {
+          z-index: 2;
+          width: 200px;
+          height: 20px;
+          top: 150px;
+          left: 100px;
+        }
+        &:nth-child(27) {
+          z-index: 2;
+          width: 100px;
+          height: 5px;
+          top: 175px;
+          left: 100px;
+        }
+        &:nth-child(28) {
+          width: 70px;
+          height: 20px;
+          bottom: 30px;
+          left: 10px;
+        }
+        &:nth-child(29) {
+          width: 80px;
+          height: 8px;
+          bottom: 63px;
+          right: 120px;
+        }
+        &:nth-child(30) {
+          width: 20px;
+          height: 5px;
+          top: 145px;
+          left: 50px;
+          z-index: 2;
+        }
+        @include strand-color-styles($hair-mid, 31, 35);
+        &:nth-child(31) {
+          width: 40px;
+          height: 10px;
+          bottom: 85px;
+          left: 10px;
+        }
+        &:nth-child(32) {
+          width: 100px;
+          height: 50px;
+          bottom: 100px;
+          left: 100px;
+        }
+        &:nth-child(33) {
+          width: 100px;
+          height: 25px;
+          bottom: 160px;
+          left: 80px;
+        }
+        &:nth-child(34) {
+          width: 20px;
+          height: 10px;
+          bottom: 70px;
+          left: 70px;
+        }
+        &:nth-child(35) {
+          width: 80px;
+          height: 5px;
+          left: 150px;
+          top: 188px;
+          z-index: 2;
+        }
+        &:nth-child(36) {
+          width: 80px;
+          height: 10px;
+          background-color: $hair-dark;
+          top: 220px;
+          left: 100px;
+          z-index: 3;
+        }
+      }
+    }
+  }
+}
+
+@keyframes breeze {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes turnHead {
+  0% {
+    transform: rotate(75deg) rotateX(0) rotate(0);
+  }
+  40% {
+    transform: rotate(75deg) rotateX(20deg) rotate(3deg);
+  }
+  80%,
+  100% {
+    transform: rotate(75deg) rotateX(0) rotate(0);
+  }
+}
+
+@keyframes turnNose {
+  0% {
+    transform: rotate(-45deg) rotateX(0) rotate(0);
+  }
+  40% {
+    transform: translate(4px) rotate(-45deg) rotateX(20deg) rotate(3deg);
+  }
+  80%,
+  100% {
+    transform: rotate(-45deg) rotateX(0) rotate(0);
+  }
+}
+
+@keyframes turnHairLeft {
+  0% {
+    transform: rotate(0) rotateX(0) rotate(0);
+  }
+  40% {
+    transform: rotate(0) rotateY(20deg) rotate(3deg);
+  }
+  80%,
+  100% {
+    transform: rotate(0) rotateX(0) rotate(0);
+  }
+}
+
+@keyframes turnHair {
+  0% {
+    transform: rotate(30deg) rotateX(0) rotate(0);
+  }
+  40% {
+    transform: rotate(30deg) rotateY(20deg) rotate(3deg);
+  }
+  80%,
+  100% {
+    transform: rotate(30deg) rotateX(0) rotate(0);
+  }
+}
+
+@keyframes turnEye {
+  0% {
+    transform: rotate(6deg) rotateX(0) rotate(0);
+  }
+  40% {
+    transform: translateX(2px) rotate(6deg) rotateY(20deg) rotate(0deg);
+  }
+  80%,
+  100% {
+    transform: rotate(6deg) rotateX(0) rotate(0);
+  }
+}
+
+@keyframes turnEyeBrow {
+  0% {
+    transform: rotate(3deg) rotateX(0) rotate(0);
+  }
+  40% {
+    transform: translateX(2px) translateY(-6px) rotateY(20deg) rotate(5deg)
+      rotate(0deg);
+  }
+  80%,
+  100% {
+    transform: rotate(3deg) rotateX(0) rotate(0);
+  }
+}
+
+@keyframes turnMouth {
+  0% {
+    transform: rotate(0deg) rotateX(0) rotate(0);
+  }
+  40% {
+    transform: translateX(2px) translateY(-1px) rotate(0deg) rotateY(20deg)
+      rotate(0deg);
+  }
+  80%,
+  100% {
+    transform: rotate(0deg) rotateX(0) rotate(0);
+  }
+}
+
+.woman__eye-wrapper {
+  position: absolute;
+  left: 175px;
+  top: 148px;
+  transform-origin: center bottom;
+  animation: blink 4s linear infinite;
+}
+@keyframes blink {
+  0% {
+    transform: scaleY(1);
+  }
+  18% {
+    transform: scaleY(1);
+  }
+  20% {
+    transform: scaleY(0);
+  }
+  25% {
+    transform: scaleY(1);
+  }
+  38% {
+    transform: scaleY(1);
+  }
+  40% {
+    transform: scaleY(0);
+  }
+  45% {
+    transform: scaleY(1);
+  }
+  80% {
+    transform: scaleY(1);
+  }
+}

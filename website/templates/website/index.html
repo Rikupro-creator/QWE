@@ -1,0 +1,126 @@
+{% extends "website/base.html" %}
+
+{% block body %}
+
+<h3 class="m-4" > current Routes </h3>
+	<div class='row'>
+		<div class='col-12'>
+			{% if route %}
+			<div class="card bg-light ms-4 me-4 mb-4">
+				<div class="card-header">Table for the assigned routes</div>
+				<div class="card-body">
+					<p class="card-text">
+						<div class="table-responsive">
+							<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">routeID</th>
+      <th scope="col">starting_location</th>
+      <th scope="col">destination</th>
+      <th scope="col">distance</th>
+      <th scope="col">estimated_arrival_time</th>
+      <th scope="col">actual_arrival_time</th>
+      <th scope="col">security_team</th>
+      <th scope="col">van_number</th>
+      <th scope="col">status </th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for routes in route %}
+    <tr>
+    	<td>{{ routes.routeID }}</td>
+    	<td>{{ routes.starting_location }}</td>
+    	<td>{{ routes.destination }}</td>
+    	<td>{{ routes.distance }}</td>
+    	<td>{{ routes.estimated_arrival_time }}</td>
+    	<td>{{ routes.actual_arrival_time }}</td>
+      <td>{{ routes.security_team }}</td>
+      <td>{{ routes.van_number }}</td>
+    	<td>{{ routes.status }}</td>
+    	<td>
+    		<button type="button" class="btn btn-success me-1" href="{% url 'view_routes' routes.id %}" data-bs-toggle='modal', data-bs-target="#myModal{{routes.id}}">
+    			<i class="fa-solid fa-circle-half-stroke fa-lg"></i>
+    		</button>
+
+    		<div class="modal" id="#myModal{{routes.id}}" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden='true'>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+        	routes:{{ routes.starting_location }} {{ routes.destination }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-unstyled">
+        	<li> routeID: <strong> {{ routes.routeID }}</strong> </li>
+        	<li> starting_location: <strong> {{ routes.starting_location }}</strong> </li>
+        	<li> destination: <strong> {{ routes.destination }}</strong> </li>
+        	<li> distance: <strong> {{ routes.distance }}</strong> </li>
+        	<li> estimated_arrival_time: <strong> {{ routes.estimated_arrival_time }}</strong> </li>
+        	<li> actual_arrival_time: <strong> {{ routes.actual_arrival_time }}</strong> </li>
+          <li> security_team: <strong> {{ routes.security_team }}</strong> </li>
+          <li> van_number: <strong> {{ routes.van_number }}</strong> </li>
+        	<li> status: <strong> {{ routes.status }}</strong> </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+     
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<a class="btn btn-warning me-1" href="{% url 'edit' routes.id %}"> 
+  <i class="fa-solid fa-comment-pen fa-lg"></i>
+</a>
+	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="delete{{routes.id}}">
+		<i class="fa-solid fa-trash-can-slash fa-lg" ></i>
+	 </button>
+
+	 <div class="modal" id="#delete{{routes.id}}" tabindex="-1" aria-labelledby="myModalLabel2" aria-hidden='true'>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+        	route:{{routes.starting_location}}{{routes.destination}}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>are you sure you want to remove this route</p>
+      </div>
+      <div class="modal-footer">
+     		<form action="{% url 'delete' routes.id %}" method="POST">
+     			{% csrf_token %}
+     			<input type="submit" class="btn btn-primary" value="Delete">
+     		</form>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+    	</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+						</div>
+
+					</p>  
+    
+  </div>
+</div>
+{% else %}
+	<h5 class="alert alert-primary ms-4 me-4"> No route for today</h5>
+	{% endif %}
+		</div>		
+	</div>		
+</div>
+		
+{% endblock %}
